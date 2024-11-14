@@ -22,6 +22,7 @@ public:
     ~State() = default;
     //Mark
     void mark(char ch);
+    char getValue() { return value; };
 
     ostream& print(ostream& os) const;
 };
@@ -29,3 +30,23 @@ public:
 inline ostream& operator<<(ostream& os, const State& state) { return state.print(os); }
 
 #endif //STATE_H
+
+class Square {
+private:
+    State state;
+    short row;
+    short col;
+    vector<Square> neighbors;
+
+public:
+    Square() = default;
+
+    Square(char c, short row, short col);;
+    ~Square() { cerr << "Deleting Square" << '[' << row << ',' << col << ']' << endl; };
+
+    void mark(char c);
+
+    ostream& print(ostream& os) const;;
+};
+
+inline ostream& operator<<(ostream& os, const Square& square) { return square.print(os); }

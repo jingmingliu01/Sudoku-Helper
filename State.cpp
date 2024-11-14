@@ -23,6 +23,8 @@ void State::mark(char ch) {
 }
 
 ostream& State::print(ostream& os) const {
+    os << "Value: " << value << endl;
+    os << "Possible: ";
     short poss = possibilities;
     poss >>= 1;
     for (int i = 1; i < 10; i++) {
@@ -30,5 +32,21 @@ ostream& State::print(ostream& os) const {
         else { os << '-'; }
         poss >>= 1;
     }
+    return os;
+}
+
+Square::Square(char c, short row, short col): state(c), row(row), col(col) {
+    cerr << "Square" << '[' << this->row << ',' << this->col << ']' << " created." << endl;
+}
+
+void Square::mark(char c) {
+    if (c >= '1' && c <= '9') {
+        state.mark(c);
+    }
+}
+
+ostream& Square::print(ostream& os) const {
+    os << "Square" << '[' << this->row << ',' << this->col << ']' << endl;
+    state.print(os); //delegation
     return os;
 }

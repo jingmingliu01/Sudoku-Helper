@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include "Game.h"
 #include "State.h"
 #include "tools.hpp"
 
@@ -60,11 +61,16 @@ void testSquare() {
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
     banner();
 
-    testState();
-    testSquare();
+    if (argc != 2) {
+        fatal("Wrong number of arguments");
+    }
+    ifstream f(argv[1]);
+    if (!f.is_open()) { fatal("Can't open file!"); }
+    Game g1(f);
+    g1.run();
 
     bye();
     return 0;

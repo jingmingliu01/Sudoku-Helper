@@ -7,4 +7,6 @@ add_executable(sudoku main.cpp
         State.cpp
         State.h
         tools.hpp
-        tools.cpp)
+        tools.cpp
+        Game.h
+        Game.cpp)

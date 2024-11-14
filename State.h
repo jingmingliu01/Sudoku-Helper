@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//Part that change frequently
 class State {
 private:
     short possibilities;
@@ -28,6 +29,28 @@ public:
 };
 
 inline ostream& operator<<(ostream& os, const State& state) { return state.print(os); }
+
+
+//Part that don't change
+class Square {
+private:
+    State state;
+    short row;
+    short col;
+    vector<Square> neighbors;
+
+public:
+    Square() = default;
+
+    Square(char c, short row, short col);;
+    ~Square() { cerr << "Deleting Square" << '[' << row << ',' << col << ']' << endl; };
+
+    void mark(char c);
+
+    ostream& print(ostream& os) const;;
+};
+
+inline ostream& operator<<(ostream& os, const Square& square) { return square.print(os); }
 
 #endif //STATE_H
 

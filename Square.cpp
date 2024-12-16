@@ -1,4 +1,5 @@
 #include "Square.h"
+#include "Cluster.h"
 
 State::State(const char v): value(v) {
     //as pre-set
@@ -14,12 +15,26 @@ State::State(const char v): value(v) {
     else { throw invalid_argument("Invalid state value!"); }
 }
 
-void State::mark(char ch) {
+void State::mark(const char ch) {
     if (fixed == true) { cerr << "This state is fixed!" << endl; }
     else {
         value = ch;
         possibilities = 0;
     }
+}
+
+void State::turnOff(int num) {
+    if (num < 1 || num > 9) {
+        cerr << "Invalid number: " << num << " (must be between 1 and 9)." << endl;
+        return;
+    }
+
+    short mask = ~(1 << num); // Create a mask to turn off the num bit
+    possibilities &= mask;          // Apply the mask
+
+    // Debugging information
+    cerr << "Turned off " << num << " in State. New possibilities: ";
+    print(cerr) << endl;
 }
 
 ostream& State::print(ostream& os) const {
@@ -47,6 +62,17 @@ void Square::mark(char c) {
 
 ostream& Square::print(ostream& os) const {
     os << "Square" << '[' << this->row << ',' << this->col << ']' << endl;
-    state.print(os); //delegation
+    state.print(os);
     return os;
+}
+
+void Square::turnOff(int num) {
+    state.turnOff(num); // Delegate the task to State
+}
+
+void Square::shoop() const {
+    cerr << "Shooping Square[" << row << "," << col << "] with value " << state.getValue() << endl;
+    for (Cluster* cluster : clues) {
+        cluster->shoop(state.getValue());
+    }
 }

@@ -2,48 +2,54 @@
 #define STATE_H
 
 #include <iostream>
+#include <vector>
+
+// Forward declaration of Cluster
+class Cluster;
 
 using namespace std;
 
-//Part that change frequently
+// State class remains unchanged
 class State {
 private:
-    short possibilities;
+    short possibilities; // Bitmask for possibilities
     char value;
     bool fixed;
-
 public:
     State() = default;
-    //Initialize
-    State(const char v);;
+    explicit State(char v);
     ~State() = default;
-    //Mark
-    void mark(char ch);
-    char getValue() { return value; };
 
+    void mark(char ch);
+    char getValue() const { return value; };
+    void turnOff(int num); // New method to turn off possibilities
     ostream& print(ostream& os) const;
 };
 
 inline ostream& operator<<(ostream& os, const State& state) { return state.print(os); }
 
 
-//Part that don't change since created
 class Square {
 private:
     State state;
     short row;
     short col;
     vector<Square> neighbors;
-
+    vector<Cluster*> clues; // Added vector of Cluster*
 public:
+    // Constructor and Destructor
     Square() = default;
-
-    Square(char c, short row, short col);;
+    Square(char c, short row, short col);
     ~Square() { cerr << "Deleting Square" << '[' << row << ',' << col << ']' << endl; };
 
+    // Cluster related functions
+    void addCluster(Cluster* c) { clues.push_back(c); } // Add a cluster
+    void turnOff(int num); // Turn off a possibility
+    void shoop() const; // Update all related clusters
+    // Mark
     void mark(char c);
-
-    ostream& print(ostream& os) const;;
+    // Print
+    ostream& print(ostream& os) const;
 };
 
 inline ostream& operator<<(ostream& os, const Square& square) { return square.print(os); }

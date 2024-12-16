@@ -11,4 +11,6 @@ add_executable(sudoku main.cpp
         Game.h
         Game.cpp
         Board.cpp
-        Board.h)
+        Board.h
+        Cluster.cpp
+        Cluster.h)

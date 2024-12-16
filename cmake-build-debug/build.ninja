@@ -85,6 +85,12 @@ build CMakeFiles/sudoku.dir/Cluster.cpp.o: CXX_COMPILER__sudoku_unscanned_Debug 
   OBJECT_DIR = CMakeFiles/sudoku.dir
   OBJECT_FILE_DIR = CMakeFiles/sudoku.dir
 
+build CMakeFiles/sudoku.dir/Errors.cpp.o: CXX_COMPILER__sudoku_unscanned_Debug /Users/jimmy/Desktop/sudoku/Errors.cpp || cmake_object_order_depends_target_sudoku
+  DEP_FILE = CMakeFiles/sudoku.dir/Errors.cpp.o.d
+  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/sudoku.dir
+  OBJECT_FILE_DIR = CMakeFiles/sudoku.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target sudoku
@@ -93,7 +99,7 @@ build CMakeFiles/sudoku.dir/Cluster.cpp.o: CXX_COMPILER__sudoku_unscanned_Debug 
 #############################################
 # Link the executable sudoku
 
-build sudoku: CXX_EXECUTABLE_LINKER__sudoku_Debug CMakeFiles/sudoku.dir/main.cpp.o CMakeFiles/sudoku.dir/Square.cpp.o CMakeFiles/sudoku.dir/tools.cpp.o CMakeFiles/sudoku.dir/Game.cpp.o CMakeFiles/sudoku.dir/Board.cpp.o CMakeFiles/sudoku.dir/Cluster.cpp.o
+build sudoku: CXX_EXECUTABLE_LINKER__sudoku_Debug CMakeFiles/sudoku.dir/main.cpp.o CMakeFiles/sudoku.dir/Square.cpp.o CMakeFiles/sudoku.dir/tools.cpp.o CMakeFiles/sudoku.dir/Game.cpp.o CMakeFiles/sudoku.dir/Board.cpp.o CMakeFiles/sudoku.dir/Cluster.cpp.o CMakeFiles/sudoku.dir/Errors.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk
   OBJECT_DIR = CMakeFiles/sudoku.dir
   POST_BUILD = :

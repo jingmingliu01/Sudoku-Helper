@@ -12,15 +12,15 @@ Cluster::Cluster(ClusterType clusterType, Square* sqArray[]) {
 
 void Cluster::print() const {
     cout << type << " Cluster:" << endl;
-    for (int i = 0; i < 9; i++) {
-        squares[i]->print(cout);
+    for (const auto square : squares) {
+        square->print(cout);
         cout << endl;
     }
     cout << endl;
 }
 
-void Cluster::shoop(char val) {
-    int num = val - '0';
+void Cluster::shoop(const char val) {
+    const int num = val - '0';
     for (Square* sq : squares) {
         sq->turnOff(num);
     }

@@ -1,5 +1,6 @@
 #include "Square.h"
 #include "Cluster.h"
+#include "Errors.h"
 
 State::State(const char v): value(v) {
     //as pre-set
@@ -12,21 +13,18 @@ State::State(const char v): value(v) {
         possibilities = 0x3fe; //0000 0011 1111 1110 in binary
         fixed = false;
     }
-    else { throw invalid_argument("Invalid state value!"); }
+    else { throw GameLogicError("Invalid state value!"); }
 }
 
 void State::mark(const char ch) {
-    if (fixed == true) { cerr << "This state is fixed!" << endl; }
-    else {
-        value = ch;
-        possibilities = 0;
-    }
+    if (fixed == true) { throw GameLogicError("This state is fixed!"); }
+    value = ch;
+    possibilities = 0;
 }
 
-void State::turnOff(int num) {
+void State::turnOff(const int num) {
     if (num < 1 || num > 9) {
-        cerr << "Invalid number: " << num << " (must be between 1 and 9)." << endl;
-        return;
+        throw GameLogicError("Marking invalid value in state");
     }
 
     short mask = ~(1 << num); // Create a mask to turn off the num bit
@@ -50,11 +48,11 @@ ostream& State::print(ostream& os) const {
     return os;
 }
 
-Square::Square(char c, short row, short col): state(c), row(row), col(col) {
+Square::Square(const char c, const short row, const short col): state(c), row(row), col(col) {
     cerr << "Square" << '[' << this->row << ',' << this->col << ']' << " created." << endl;
 }
 
-void Square::mark(char c) {
+void Square::mark(const char c) {
     if (c >= '1' && c <= '9') {
         state.mark(c);
     }
@@ -66,7 +64,7 @@ ostream& Square::print(ostream& os) const {
     return os;
 }
 
-void Square::turnOff(int num) {
+void Square::turnOff(const int num) {
     state.turnOff(num); // Delegate the task to State
 }
 

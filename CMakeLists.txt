@@ -13,4 +13,6 @@ add_executable(sudoku main.cpp
         Board.cpp
         Board.h
         Cluster.cpp
-        Cluster.h)
+        Cluster.h
+        Errors.cpp
+        Errors.h)

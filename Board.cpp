@@ -1,5 +1,7 @@
 #include "Board.h"
 
+#include "Errors.h"
+
 // Constructor with type
 Board::Board(const char type, ifstream& puzfile) : f(puzfile) {
     cerr << "Constructing Board" << endl;
@@ -14,7 +16,7 @@ Board::Board(const char type, ifstream& puzfile) : f(puzfile) {
             n = 6;
             break;
         default:
-            fatal("Invalid type code");
+            throw GameLogicError("Invalid type code");
     }
 
     // Allocate memory for the board
@@ -31,7 +33,7 @@ Board::Board(const char type, ifstream& puzfile) : f(puzfile) {
 }
 
 // Constructor with size
-Board::Board(int gameSize, ifstream& f) : f(f), n(gameSize), remain_squares(gameSize * gameSize) {
+Board::Board(const int gameSize, ifstream& f) : f(f), n(gameSize), remain_squares(gameSize * gameSize) {
     bd = new Square[n * n]; // Dynamically allocate the board
     getPuzzle();            // Load the puzzle from the file
     makeClusters();         // Create clusters after the board is initialized
@@ -58,7 +60,7 @@ void Board::makeClusters() {
     }
 
     // Create box clusters
-    int boxSize = static_cast<int>(sqrt(n));
+    const int boxSize = static_cast<int>(sqrt(n));
     for (int boxRow = 0; boxRow < boxSize; ++boxRow) {
         for (int boxCol = 0; boxCol < boxSize; ++boxCol) {
             createBox(boxRow * 3 + boxCol);
@@ -67,7 +69,7 @@ void Board::makeClusters() {
 }
 
 // Create a row cluster
-void Board::createRow(short row) {
+void Board::createRow(const short row) {
     Square* sqArray[9];
     for (int col = 0; col < n; ++col) {
         sqArray[col] = &sub(row + 1, col + 1);
@@ -87,8 +89,8 @@ void Board::createColumn(short col) {
 // Create a box cluster
 void Board::createBox(short box) {
     Square* sqArray[9];
-    int boxRowStart = (box / 3) * 3;
-    int boxColStart = (box % 3) * 3;
+    const int boxRowStart = (box / 3) * 3;
+    const int boxColStart = (box % 3) * 3;
 
     int idx = 0;
     for (int i = 0; i < 3; ++i) { // Rows in the box
@@ -106,7 +108,7 @@ void Board::getPuzzle() {
         string line;
         getline(f, line);
         if ((int)line.length() != n) {
-            fatal("Invalid line length");
+            throw GameLogicError("Invalid line length");
         }
         for (int k = 1; k <= n; ++k) {
             char ch = line[k - 1];
@@ -116,14 +118,14 @@ void Board::getPuzzle() {
                     emptyCount++;
                 }
             } else {
-                fatal("Invalid character in puzzle");
+                throw GameLogicError("Invalid character in puzzle");
             }
         }
     }
     // remain_squares is the number of empty squares
     remain_squares = emptyCount;
     if (f.get() != EOF) {
-        fatal("Extra data after puzzle");
+        throw StreamError("Extra data after puzzle");
     }
 }
 

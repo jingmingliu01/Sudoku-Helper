@@ -24,12 +24,12 @@ public:
     Board(int gameSize, ifstream& f); // Constructor with size
     Board(char type, ifstream& puzfile); // Constructor with type
     ~Board();
-    Square& sub(int r, int c) const { return bd[n * (r - 1) + (c - 1)]; }; // Subscript function
+    Square& sub(const int r, const int c) const { return bd[n * (r - 1) + (c - 1)]; }; // Subscript function
     void print() const; // Print function
 };
 
 // Inline method for the output operator
-inline ostream& operator<<(ostream& out, Board& b) {
+inline ostream& operator<<(ostream& out, const Board& b) {
     b.print();
     return out;
 }

@@ -26,7 +26,7 @@ public:
     Game(short gameSize, ifstream& f);
     ~Game() = default;
 
-    void run();
+    void run() const;
 };
 
 #endif //GAME_H

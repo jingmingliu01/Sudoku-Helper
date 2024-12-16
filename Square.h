@@ -11,7 +11,7 @@ using namespace std;
 
 // State class remains unchanged
 class State {
-private:
+protected:
     short possibilities; // Bitmask for possibilities
     char value;
     bool fixed;
@@ -29,7 +29,7 @@ public:
 inline ostream& operator<<(ostream& os, const State& state) { return state.print(os); }
 
 
-class Square {
+class Square: public State {
 private:
     State state;
     short row;

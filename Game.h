@@ -3,10 +3,9 @@
 
 #include <string>
 #include "tools.hpp"
+#include "Board.h"
 
 using namespace std;
-
-class Board;
 
 class Game {
 private:
@@ -24,7 +23,7 @@ private:
     ifstream& f;
 
 public:
-    Game(ifstream& f);;
+    Game(short gameSize, ifstream& f);
     ~Game() = default;
 
     void run();

@@ -1,4 +1,4 @@
-#include "State.h"
+#include "Square.h"
 
 State::State(const char v): value(v) {
     //as pre-set

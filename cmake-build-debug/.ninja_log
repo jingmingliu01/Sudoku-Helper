@@ -1,12 +1,15 @@
 # ninja log v6
-577	667	1731626560059083349	sudoku	eedef8b96398e743
-6	575	1731626559487818709	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
-6	631	1731625525076516933	CMakeFiles/sudoku.dir/State.cpp.o	c47d8f8a21c98add
-7	657	1731625525076674600	CMakeFiles/sudoku.dir/tools.cpp.o	46d299b550a64fe
-6	467	1731626772606573743	CMakeFiles/sudoku.dir/Game.cpp.o	e44b8b0c1b2d3639
-6	467	1731626772606064787	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
-467	564	1731626773067748142	sudoku	dcc9bab2c9fc6d16
-14	515	1731626822273407089	CMakeFiles/sudoku.dir/State.cpp.o	c47d8f8a21c98add
-14	546	1731626822273719880	CMakeFiles/sudoku.dir/Game.cpp.o	e44b8b0c1b2d3639
-13	547	1731626822272779758	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
 547	636	1731626822805887086	sudoku	dcc9bab2c9fc6d16
+13	547	1731626822272779758	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
+14	546	1731626822273719880	CMakeFiles/sudoku.dir/Game.cpp.o	e44b8b0c1b2d3639
+7	657	1731625525076674600	CMakeFiles/sudoku.dir/tools.cpp.o	46d299b550a64fe
+16	678	1734316707680492219	CMakeFiles/sudoku.dir/Square.cpp.o	e3e8b549a5397e25
+16	680	1734316707680604260	CMakeFiles/sudoku.dir/tools.cpp.o	46d299b550a64fe
+17	702	1734316707681037548	CMakeFiles/sudoku.dir/Board.cpp.o	23f6bee4c2ec26cd
+7	568	1734316822390491243	CMakeFiles/sudoku.dir/Game.cpp.o	e44b8b0c1b2d3639
+7	569	1734316822390192829	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
+569	688	1734316822952052296	sudoku	18fe726bcdbdb0ad
+7	494	1734316852704340047	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
+495	530	1734316853191431596	sudoku	18fe726bcdbdb0ad
+6	574	1734317274581345029	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
+574	662	1734317275148913399	sudoku	18fe726bcdbdb0ad

@@ -27,7 +27,7 @@ public:
 inline ostream& operator<<(ostream& os, const State& state) { return state.print(os); }
 
 
-//Part that don't change
+//Part that don't change since created
 class Square {
 private:
     State state;

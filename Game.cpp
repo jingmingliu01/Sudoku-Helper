@@ -1,6 +1,7 @@
 #include "Game.h"
 
-Game::Game(ifstream& f): f(f) {
+Game::Game(short gameSize, ifstream& f): gameSize(gameSize), f(f) {
+    //set gameType by reading first letter from file
     f >> gameType;
     string ValidGameType = "tdsTDS"; // string of all the game type, in both upper and lower case.
     if (ValidGameType.find(gameType) == string::npos) {
@@ -9,6 +10,8 @@ Game::Game(ifstream& f): f(f) {
     else {
         cerr << "Game Type: " << gameType << endl;
     }
+    //create Board
+    board = new Board(gameSize, f);
 }
 
 void Game::run() {

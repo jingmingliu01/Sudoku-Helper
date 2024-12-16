@@ -96,8 +96,8 @@ void testBoard() {
 int main(int argc, char* argv[]) {
     banner();
 
+    /*
     cout << "Running Tests..." << endl<<endl;
-
     // Test Square
     testSquare();
 
@@ -106,6 +106,22 @@ int main(int argc, char* argv[]) {
 
     // Test Board
     testBoard();
+    */
+
+    // check for command line argument
+    if (argc < 2) {
+        cerr << "Usage: " << argv[0] << " puzzle_file.txt" << endl;
+        return 1;
+    }
+    // Open the file with ifstream
+    ifstream puzzleFile(argv[1]);
+    if (!puzzleFile) {
+        cerr << "Error opening file: " << argv[1] << endl;
+        return 1;
+    }
+    // Create a Game object and run it
+    Game game(9, puzzleFile);
+    game.run();
 
     cout << "All tests completed successfully." << endl;
 

@@ -19,3 +19,9 @@
 7	600	1734371134363269723	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
 8	627	1734371134364109975	CMakeFiles/sudoku.dir/Board.cpp.o	23f6bee4c2ec26cd
 627	660	1734371134982873385	sudoku	ea5f25b3c7576b53
+21	688	1734380840773048862	CMakeFiles/sudoku.dir/Cluster.cpp.o	5571fd7a4bd9b297
+20	692	1734380840772690593	CMakeFiles/sudoku.dir/Square.cpp.o	e3e8b549a5397e25
+21	716	1734380840772838542	CMakeFiles/sudoku.dir/Game.cpp.o	e44b8b0c1b2d3639
+20	728	1734380840771983555	CMakeFiles/sudoku.dir/main.cpp.o	eb14bcd494b4cd6a
+21	780	1734380840772953826	CMakeFiles/sudoku.dir/Board.cpp.o	23f6bee4c2ec26cd
+780	888	1734380841532709495	sudoku	ea5f25b3c7576b53

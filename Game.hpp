@@ -3,7 +3,7 @@
 
 #include <string>
 #include "tools.hpp"
-#include "Board.h"
+#include "Board.hpp"
 
 using namespace std;
 

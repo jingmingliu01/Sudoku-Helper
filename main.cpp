@@ -1,8 +1,8 @@
 #include <iostream>
-#include "Square.h"
-#include "Cluster.h"
-#include "Board.h"
-#include "Game.h"
+#include "Square.hpp"
+#include "Cluster.hpp"
+#include "Board.hpp"
+#include "Game.hpp"
 
 using namespace std;
 

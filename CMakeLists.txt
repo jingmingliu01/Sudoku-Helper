@@ -5,12 +5,12 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(sudoku main.cpp
         Square.cpp
-        Square.h
+        Square.hpp
         tools.hpp
         tools.cpp
-        Game.h
+        Game.hpp
         Game.cpp
         Board.cpp
-        Board.h
+        Board.hpp
         Cluster.cpp
-        Cluster.h)
+        Cluster.hpp)

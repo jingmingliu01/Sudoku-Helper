@@ -1,9 +1,9 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Cluster.h"
+#include "Cluster.hpp"
 #include "tools.hpp"
-#include "Square.h"
+#include "Square.hpp"
 #include <vector>
 
 class Board {

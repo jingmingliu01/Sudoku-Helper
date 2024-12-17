@@ -1,4 +1,4 @@
-#include "Board.h"
+#include "Board.hpp"
 
 // Constructor with type
 Board::Board(const char type, ifstream& puzfile) : f(puzfile) {

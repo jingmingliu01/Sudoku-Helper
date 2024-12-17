@@ -2,7 +2,7 @@
 #define CLUSTER_H
 
 #include <vector>
-#include "Square.h"
+#include "Square.hpp"
 
 enum class ClusterType { ROW, COLUMN, BOX };
 static constexpr const char* clusterTypeStrings[3] = { "Row", "Column", "Box" };

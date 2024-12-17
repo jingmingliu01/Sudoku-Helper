@@ -1,4 +1,4 @@
-#include "Cluster.h"
+#include "Cluster.hpp"
 #include <iostream>
 using namespace std;
 

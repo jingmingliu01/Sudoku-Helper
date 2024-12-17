@@ -1,5 +1,5 @@
-#include "Square.h"
-#include "Cluster.h"
+#include "Square.hpp"
+#include "Cluster.hpp"
 
 State::State(const char v): value(v) {
     //as pre-set

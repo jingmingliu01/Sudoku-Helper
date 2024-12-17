@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Game.hpp"
 
 Game::Game(short gameSize, ifstream& f): gameSize(gameSize), f(f) {
     //set gameType by reading first letter from file

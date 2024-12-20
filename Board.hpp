@@ -1,37 +1,35 @@
-#ifndef BOARD_H
-#define BOARD_H
-
-#include "Cluster.hpp"
-#include "tools.hpp"
+// ==========================================================================================
+// Header file for model of Sudoku Board    Author: Kim & Jingming
+// File: board.hpp
+// ==========================================================================================
+#pragma once
 #include "Square.hpp"
-#include <vector>
-
+#include "Cluster.hpp"
+// ==========================================================================================
 class Board {
 private:
-    ifstream& f;
-    int n; // Size of the puzzle
-    Square* bd; // Dynamically allocated array of Squares
-    short remain_squares; // Track the number of remaining squares with a ‘-’ instead of digit
-    vector<unique_ptr<Cluster>> clusters; // Stores pointers to all clusters (27 total for 9x9 Sudoku)
+    int n;
+    short int rs = n*n;
+    ifstream& fin;
+    Square* bd;
+    vector<Cluster*> cs;   //new addition
 
-    void getPuzzle(); // Private helper function
-    void makeClusters(); // Creates all clusters (rows, columns, boxes)
-    void createRow(short row) ; // Create a row cluster
-    void createColumn(short col) ; // Create a column cluster
-    void createBox(short box) ; // Create a box cluster
+    void getPuzzle();
+    void makeClusters();
+    void createRow(short j);
+    void createColumn(short k);
+    void createBox(short j, short k);
 
 public:
-    Board(int gameSize, ifstream& f); // Constructor with size
-    Board(char type, ifstream& puzfile); // Constructor with type
+    Board(char type, ifstream& puzfile);
     ~Board();
-    Square& sub(int r, int c) const { return bd[n * (r - 1) + (c - 1)]; }; // Subscript function
-    void print() const; // Print function
+
+    Square& sub( int r, int c ) const;
+    // updated to print board n clusters or only clusters
+    void print(ostream& os, bool clusOnly = false) const;
 };
-
-// Inline method for the output operator
-inline ostream& operator<<(ostream& out, Board& b) {
-    b.print();
-    return out;
+//----------------------------------------------------------------------------------
+inline ostream& operator<<(ostream& os, Board& bd) {
+    bd.print(os);
+    return os;
 }
-
-#endif // BOARD_H

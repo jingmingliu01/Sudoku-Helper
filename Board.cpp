@@ -1,139 +1,148 @@
+// ==========================================================================================
+// Implementing the model of the Sudoku Board       Author: Kim & Jingming
+// File: board.cpp
+// ==========================================================================================
 #include "Board.hpp"
+#include "tools.hpp"
+//-------------------------------------------------------------------------------------------
+Board::Board(const char type, ifstream& puzfile) : fin(puzfile) {
+    cerr << "----------CONSTRUCTING A BOARD----------\n"
+         << "Reading Game Type (t, d or s) from Puzzle File.\n";
 
-// Constructor with type
-Board::Board(const char type, ifstream& puzfile) : f(puzfile) {
-    cerr << "Constructing Board" << endl;
+    if (type == 't' || type == 'd') n = 9;
+    else if (type == 's') n = 6;
+    else fatal("Invalid Game Type in Puzzle File (Must be t or d or s)");
 
-    // Determine board size based on type
-    switch (type) {
-        case 't':
-        case 'd':
-            n = 9;
-            break;
-        case 's':
-            n = 6;
-            break;
-        default:
-            fatal("Invalid type code");
-    }
+    fin.ignore(); // Consume the trailing newline after 't'
 
-    // Allocate memory for the board
-    bd = new Square[n * n];
-    remain_squares = n * n;
+    bd = new Square[n*n];
 
-    // Load the puzzle
     getPuzzle();
-
-    // Create clusters (rows, columns, boxes)
     makeClusters();
 
-    cerr << "Board construction done" << endl;
-}
-
-// Constructor with size
-Board::Board(int gameSize, ifstream& f) : f(f), n(gameSize), remain_squares(gameSize * gameSize) {
-    bd = new Square[n * n]; // Dynamically allocate the board
-    getPuzzle();            // Load the puzzle from the file
-    makeClusters();         // Create clusters after the board is initialized
-}
-
-// Destructor
-Board::~Board() {
-    delete[] bd; // Delete the dynamically allocated array
-    cerr << "Deleting Board" << endl;
-}
-
-// Create all clusters: rows, columns, and boxes
-void Board::makeClusters() {
-    Square* sqArray[9];
-
-    // Create row clusters
-    for (int i = 0; i < n; ++i) {
-        createRow(i);
-    }
-
-    // Create column clusters
-    for (int j = 0; j < n; ++j) {
-        createColumn(j);
-    }
-
-    // Create box clusters
-    int boxSize = static_cast<int>(sqrt(n));
-    for (int boxRow = 0; boxRow < boxSize; ++boxRow) {
-        for (int boxCol = 0; boxCol < boxSize; ++boxCol) {
-            createBox(boxRow * 3 + boxCol);
-        }
-    }
-}
-
-// Create a row cluster
-void Board::createRow(short row) {
-    Square* sqArray[9];
-    for (int col = 0; col < n; ++col) {
-        sqArray[col] = &sub(row + 1, col + 1);
-    }
-    clusters.push_back(std::move(std::make_unique<Cluster>(ClusterType::ROW, sqArray)));
-}
-
-// Create a column cluster
-void Board::createColumn(short col) {
-    Square* sqArray[9];
-    for (int row = 0; row < n; ++row) {
-        sqArray[row] = &sub(row + 1, col + 1);
-    }
-    clusters.push_back(std::move(std::make_unique<Cluster>(ClusterType::COLUMN, sqArray)));
-}
-
-// Create a box cluster
-void Board::createBox(short box) {
-    Square* sqArray[9];
-    int boxRowStart = (box / 3) * 3;
-    int boxColStart = (box % 3) * 3;
-
-    int idx = 0;
-    for (int i = 0; i < 3; ++i) { // Rows in the box
-        for (int j = 0; j < 3; ++j) { // Columns in the box
-            sqArray[idx++] = &sub(boxRowStart + i + 1, boxColStart + j + 1);
-        }
-    }
-    clusters.push_back(std::move(std::make_unique<Cluster>(ClusterType::BOX, sqArray)));
-}
-
-// Load the puzzle from the file
-void Board::getPuzzle() {
-    int emptyCount = 0;
-    for (int j = 1; j <= n; ++j) {
-        string line;
-        getline(f, line);
-        if ((int)line.length() != n) {
-            fatal("Invalid line length");
-        }
-        for (int k = 1; k <= n; ++k) {
-            char ch = line[k - 1];
-            if (isdigit(ch) || ch == '-') {
-                sub(j, k) = Square(ch, j, k);
-                if (ch == '-') {
-                    emptyCount++;
-                }
-            } else {
-                fatal("Invalid character in puzzle");
+    for (int r = 1; r <= n; ++r) {
+        for (int c = 1; c <= n; ++c) {
+            Square& sq = sub(r, c);
+            if (sq.getValue() != '-') {
+                sq.shoop(sq.getValue());
             }
         }
     }
-    // remain_squares is the number of empty squares
-    remain_squares = emptyCount;
-    if (f.get() != EOF) {
-        fatal("Extra data after puzzle");
-    }
-}
 
-// Print the board
-void Board::print() const {
-    for (int i = 0; i < n * n; ++i) {
-        bd[i].print(cout);
-        cout << endl;
-        if ((i + 1) % n == 0) {
-            cout << endl;
+    cerr << "----------" << n << " by " << n << " BOARD CONSTRUCTED----------\n";
+}
+//-------------------------------------------------------------------------------------------
+Board::~Board() {
+    for (const Cluster* c : cs) delete c;
+    delete[] bd;
+    cerr << "\n\nFreeing Board and its Memory.\n";
+}
+//-------------------------------------------------------------------------------------------
+Square& Board::
+sub(const int r, const int c) const {
+    return bd[n * (r - 1) + (c - 1)];
+}
+//-------------------------------------------------------------------------------------------
+void Board::
+getPuzzle() {
+    int j;      //row value
+    int k;      //column value
+    char ch;
+
+    // Nested Loop for row j and column k
+    for (j = 1; j <= n; ++j) {
+        string buf;
+
+        // Read a line and clean it
+        if (!getline(fin, buf)) {
+            fatal("Error reading row " + to_string(j)
+                + ": unexpected end of file.");
+        }
+
+        // Remove carriage return if present
+        if (!buf.empty() && buf.back() == '\r') {
+            buf.pop_back();
+        }
+
+        if (buf.size() != n) {
+            fatal("Row " + to_string(j) + " has wrong size "
+                       + to_string(buf.size()));
+        }
+
+        for (k = 1; k <= n; ++k) {
+            ch = buf[k - 1];
+
+            if ((ch >= '1' && ch <= char('0' + n)) || ch == '-') {
+                sub(j, k) = Square(ch, j, k);
+
+                if (ch != '-') --rs;
+            }
+            else fatal("Invalid character in puzzle file: " + string(1,ch));
+        }
+
+        if (k == n && fin.peek() != '\n') {
+            fatal("Puzzle file format error: missing newline.");
         }
     }
+    if (fin >> ch && !fin.eof()) fatal("Additional char found at EOF");
+}
+//-------------------------------------------------------------------------------------------
+void Board::
+print(ostream &os, const bool clusOnly) const{    //print all or cluster only
+    if (!clusOnly) {
+        os << "Board Squares:\n";
+        for (int r = 1; r <= n; ++r) {
+            for (int c = 1; c <= n; ++c) {
+                sub(r, c).print(os);
+            }
+        }
+        os << "\n";
+    }
+
+    for (const Cluster* c : cs) {
+        os << *c;
+    }
+}
+//-------------------------------------------------------------------------------------------
+void Board::
+makeClusters() {
+    for (short j = 1; j <= n; ++j) {
+        createRow(j);
+        createColumn(j);
+    }
+    for (short j = 1; j <= n; j += 3) {
+        for (short k = 1; k <= n; k += 3) {
+            createBox(j, k);
+        }
+    }
+}
+//-------------------------------------------------------------------------------------------
+void Board::
+createRow(short j) {
+    Square* sqrs[9];
+    for (short k = 0; k < n; ++k) {
+        sqrs[k] = &sub(j, k + 1);
+    }
+    cs.push_back(new Cluster(ClusterT::ROW, sqrs));
+}
+//-------------------------------------------------------------------------------------------
+void Board::
+createColumn(short k) {
+    Square* sqrs[9];
+    for (short m = 0; m < n; ++m) {
+        sqrs[m] = &sub(m + 1, k);
+    }
+    cs.push_back(new Cluster(ClusterT::COLUMN, sqrs));
+}
+//-------------------------------------------------------------------------------------------
+void Board::
+createBox(const short j, const short k) {
+    Square* sqrs[9];
+    short idx = 0;
+    for (short r = 0; r < 3; ++r) {
+        for (short c = 0; c < 3; ++c) {
+            sqrs[idx++] = &sub(j + r, k + c);
+        }
+    }
+    cs.push_back(new Cluster(ClusterT::BOX, sqrs));
 }

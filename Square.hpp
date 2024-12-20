@@ -1,57 +1,39 @@
-#ifndef STATE_H
-#define STATE_H
-
-#include <iostream>
-#include <vector>
-
-// Forward declaration of Cluster
+// =================================================================================
+// Name: Implementing Simplest Data Structure - Square      Author: Kim & Jingming
+// File: state.hpp
+// =================================================================================
+#pragma once
+#include "State.hpp"
 class Cluster;
-
-using namespace std;
-
-// State class remains unchanged
-class State {
-private:
-    short possibilities; // Bitmask for possibilities
-    char value;
-    bool fixed;
-public:
-    State() = default;
-    explicit State(char v);
-    ~State() = default;
-
-    void mark(char ch);
-    char getValue() const { return value; };
-    void turnOff(int num); // New method to turn off possibilities
-    ostream& print(ostream& os) const;
-};
-
-inline ostream& operator<<(ostream& os, const State& state) { return state.print(os); }
-
-
+//----------------------------------------------------------------------------------
 class Square {
 private:
-    State state;
-    short row;
-    short col;
-    vector<Square> neighbors;
-    vector<Cluster*> clues; // Added vector of Cluster*
+    State st;
+    short int row;
+    short int col;
+    vector<Cluster*> cs;    //new addition; cs short for clusters
+
 public:
-    // Constructor and Destructor
-    Square() = default;
-    Square(char c, short row, short col);
-    ~Square() { cerr << "Deleting Square" << '[' << row << ',' << col << ']' << endl; };
+    Square() = default;;
+    Square(const char val, const short int row, const short int col)
+        : st(val), row(row), col(col){};
+    ~Square() = default;
 
-    // Cluster related functions
-    void addCluster(Cluster* c) { clues.push_back(c); } // Add a cluster
-    void turnOff(int num); // Turn off a possibility
-    void shoop() const; // Update all related clusters
-    // Mark
-    void mark(char c);
-    // Print
-    ostream& print(ostream& os) const;
+    void print(ostream& os) const;    //Partial delegation to State's print function
+
+    void mark (char ch);
+
+    //new additions:
+    void addCluster(Cluster* c) { cs.push_back(c);}
+
+    void shoop(char val) const;
+
+    void turnOff(int n);
+
+    char getValue() const { return st.getValue(); } //new addition
 };
-
-inline ostream& operator<<(ostream& os, const Square& square) { return square.print(os); }
-
-#endif //STATE_H
+//----------------------------------------------------------------------------------
+inline ostream& operator<<(ostream& os, const Square& square) {
+    square.print(os);
+    return os;
+}

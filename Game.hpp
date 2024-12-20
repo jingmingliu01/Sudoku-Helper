@@ -1,32 +1,23 @@
-#ifndef GAME_H
-#define GAME_H
-
-#include <string>
+// ==========================================================================================
+// Header file for the Game Controller of Sudoku Helper     Author: Kim & Jingming
+// File: game.hpp
+// ==========================================================================================
+#pragma once
 #include "tools.hpp"
-#include "Board.hpp"
-
-using namespace std;
-
+//-------------------------------------------------------------------------------------------
+class Board;
+//-------------------------------------------------------------------------------------------
 class Game {
 private:
-    const string menu[6] = {
-        "M:Mark. Input row, column, and value, then call Board::mark().",
-        "U:Undo",
-        "R:Redo",
-        "S:Save Game",
-        "Y:Restore Game",
-        "Q:Quit and discard game. End and print a message."
-    };
-    Board* board;
-    char gameType; //legal type code when the game is finished:  ‘t’ for traditional, ‘d’ for diagonal, and ‘s’ for sixy
-    short gameSize; //legal value: 6 or 9
-    ifstream& f;
+    const string gMenu[4] = {"M: Mark","U: Undo","R: Redo","Q: Quit"};
+    Board* brd;
+    char gmType;
+    short int gmSize;
+    ifstream& fin;
 
 public:
-    Game(short gameSize, ifstream& f);
+    explicit Game(ifstream& fin);
     ~Game() = default;
 
-    void run();
+    void run() const;
 };
-
-#endif //GAME_H

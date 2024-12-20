@@ -1,26 +1,27 @@
-#ifndef CLUSTER_H
-#define CLUSTER_H
-
-#include <vector>
+// ==========================================================================================
+// Header file for logical structure and cluster    Author: Kim & Jingming
+// File: cluster.hpp
+// ==========================================================================================
+#pragma once
 #include "Square.hpp"
+#include <vector>
 
-enum class ClusterType { ROW, COLUMN, BOX };
-static constexpr const char* clusterTypeStrings[3] = { "Row", "Column", "Box" };
-
+enum class ClusterT {ROW, COLUMN, BOX};
+//------------------------------------------------------------------------------------------
 class Cluster {
 private:
-    const char* type;
-    Square* squares[9];
+    vector<Square*> sqrs;
+    const char* cl;
 
 public:
-    Cluster(ClusterType clusterType, Square* sqArray[]);
-    void print() const;
-    void shoop(char val);
+    Cluster(ClusterT type, Square* sqrArr[9]);
+    ~Cluster() = default;
+
+    void print(ostream& os) const;
+    void shoop( char val) const;
 };
-
-inline std::ostream& operator<<(std::ostream& out, const Cluster& c) {
-    c.print();
-    return out;
+//----------------------------------------------------------------------------------
+inline ostream& operator<<(ostream& os, const Cluster& c) {
+    c.print(os);
+    return os;
 }
-
-#endif //CLUSTER_H

@@ -1,11 +1,11 @@
-#ifndef ERRORS_H
-#define ERRORS_H
-
-#include <stdexcept>
+// ==========================================================================================
+// Header file for the Game Controller of Sudoku Helper     Author: Kim & Jingming
+// File: game.hpp
+// ==========================================================================================
+#pragma once
 #include <string>
 #include <iostream>
-#include <utility>
-
+//-------------------------------------------------------------------------------------------
 using namespace std;
 
 class SudokuError : public exception {
@@ -37,5 +37,3 @@ public:
         os << "GameLogicError: " << msg << endl;
     }
 };
-
-#endif

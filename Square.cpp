@@ -5,14 +5,6 @@
 #include "Square.hpp"
 #include "Cluster.hpp"
 //-------------------------------------------------------------------------------------------
-// Square::Square(char val, short int r, short int c) : st(val), row(r), col(c) {
-//     cerr << "Square [" << row << "," << col << "] created.\n";
-// }
-//-------------------------------------------------------------------------------------------
-// Square::~Square() {
-//     cerr << "Deleting square [" << row << "," << col << "]\n";
-// }
-//-------------------------------------------------------------------------------------------
 void Square::
 print(ostream &os) const {
     os << "[" << row << "," << col << "] ";

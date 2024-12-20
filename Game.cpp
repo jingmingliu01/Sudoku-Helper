@@ -5,17 +5,18 @@
 #include "tools.hpp"
 #include "Game.hpp"
 #include "Board.hpp"
+#include "Errors.hpp"
 //-------------------------------------------------------------------------------------------
 Game::Game(ifstream& fin) : fin(fin) {
     char tc;    //type code
     const string codes = "tTdDsS";     //string of legal menu codes
 
     if (!fin.is_open()) {
-        fatal("Puzzle file could not be opened.");
+        throw StreamError("Puzzle file could not be opened.");
     }
     fin >> tc;
     if (codes.find(tc) == string::npos) {
-        fatal("Invalid game type");
+        throw GameLogicError("Invalid game type");
     }
     cout << "Game type read: " << tc << endl;
     brd = new Board(tc, fin);

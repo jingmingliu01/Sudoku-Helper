@@ -4,6 +4,7 @@
 // ==========================================================================================
 #include "Board.hpp"
 #include "tools.hpp"
+#include "Errors.hpp"
 //-------------------------------------------------------------------------------------------
 Board::Board(const char type, ifstream& puzfile) : fin(puzfile) {
     cerr << "----------CONSTRUCTING A BOARD----------\n"
@@ -11,7 +12,7 @@ Board::Board(const char type, ifstream& puzfile) : fin(puzfile) {
 
     if (type == 't' || type == 'd') n = 9;
     else if (type == 's') n = 6;
-    else fatal("Invalid Game Type in Puzzle File (Must be t or d or s)");
+    else throw GameLogicError("Invalid Game Type in Puzzle File (Must be t or d or s)");
 
     fin.ignore(); // Consume the trailing newline after 't'
 
@@ -55,7 +56,7 @@ getPuzzle() {
 
         // Read a line and clean it
         if (!getline(fin, buf)) {
-            fatal("Error reading row " + to_string(j)
+            throw StreamError("Error reading row " + to_string(j)
                 + ": unexpected end of file.");
         }
 
@@ -65,7 +66,7 @@ getPuzzle() {
         }
 
         if (buf.size() != n) {
-            fatal("Row " + to_string(j) + " has wrong size "
+            throw StreamError("Row " + to_string(j) + " has wrong size "
                        + to_string(buf.size()));
         }
 
@@ -77,14 +78,14 @@ getPuzzle() {
 
                 if (ch != '-') --rs;
             }
-            else fatal("Invalid character in puzzle file: " + string(1,ch));
+            else throw StreamError("Invalid character in puzzle file: " + string(1,ch));
         }
 
         if (k == n && fin.peek() != '\n') {
-            fatal("Puzzle file format error: missing newline.");
+            throw StreamError("Puzzle file format error: missing newline.");
         }
     }
-    if (fin >> ch && !fin.eof()) fatal("Additional char found at EOF");
+    if (fin >> ch && !fin.eof()) throw StreamError("Additional char found at EOF");
 }
 //-------------------------------------------------------------------------------------------
 void Board::

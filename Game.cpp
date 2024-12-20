@@ -1,21 +1,56 @@
-#include "Game.h"
+// ==========================================================================================
+// Implementing the Game Controller of Sudoku Helper
+// File: game.cpp
+// ==========================================================================================
+#include "tools.hpp"
+#include "Game.hpp"
+#include "Board.hpp"
+//-------------------------------------------------------------------------------------------
+Game::Game(ifstream& fin) : fin(fin) {
+    char tc;    //type code
+    const string codes = "tTdDsS";     //string of legal menu codes
 
-#include "Errors.h"
-
-Game::Game(short gameSize, ifstream& f): gameSize(gameSize), f(f) {
-    //set gameType by reading first letter from file
-    f >> gameType;
-    f.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Skip to the end of the line
-    string ValidGameType = "tdsTDS"; // string of all the game type, in both upper and lower case.
-    if (ValidGameType.find(gameType) == string::npos) {
-        throw GameLogicError("Invalid game type");
+    if (!fin.is_open()) {
+        fatal("Puzzle file could not be opened.");
     }
-    cerr << "Game Type: " << gameType << endl;
-    //create Board
-    board = new Board(gameSize, f);
+    fin >> tc;
+    if (codes.find(tc) == string::npos) {
+        fatal("Invalid game type");
+    }
+    cout << "Game type read: " << tc << endl;
+    brd = new Board(tc, fin);
 }
+//-------------------------------------------------------------------------------------------
+// Game::~Game() {
+//     cerr << "\nGame Closed.\n\n";
+// }
+//-------------------------------------------------------------------------------------------
+void Game::
+run() const {
+    cout << "\nINITIAL BOARD STATE\n";
+    brd->print(cout);
 
-void Game::run() const {
-    const string ValidMenuChoice = "MURSYQ";
-    menu_c("------Sudoku Helper Menu------", 6, menu, ValidMenuChoice);
+    const string mCodes = "mMuUrRqQ";  // upper & lower case menu codes
+    char ch = menu_c("Sudoku Main Menu", 4, gMenu, mCodes);
+
+    switch (ch) {
+        case 'm' : case 'M':
+            int r, c;
+            char val;
+            cout << "\nTo MARK a SQUARE, enter the ROW, COLUMN, and VALUE(one space between each,"
+                 << " ex. 1 2 3):\n";
+            cin >> r >> c >> val;
+
+            brd->sub(r, c).mark(val);
+            brd->sub(r, c).shoop(val);
+
+            cout << "\nUpdated Clusters after marking [" << r << ","
+                 << c << "] with " << val << ":\n";
+            brd->print(cout, true);
+            break;
+
+        case 'q' : case 'Q':
+            cout << "\n\nQuitting Game.\n\n";
+            break;
+    }
 }
